@@ -46,8 +46,6 @@ export default class Phonebook extends Component {
 
   handleChange = evt => {
     const { name, value } = evt.target;
-    // console.log(value);
-
     this.setState({ [name]: value });
   };
 
