@@ -7,30 +7,46 @@ import ContactList from './ContactList/ContactList';
 import { SearchBar } from './SearchBar/SearchBar';
 import { PhonebookOptions } from './PhonebookOptions';
 
-const initialObject = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-];
-
 export default class Phonebook extends Component {
   state = {
-    contacts: [...initialObject],
-    filteredContacts: [...initialObject],
+    contacts: [],
+    filteredContacts: [],
     name: '',
     number: '',
     filter: '',
+    isModificated: false,
   };
 
+  componentDidMount() {
+    const initialObject = JSON.parse(localStorage.getItem('contacts'));
+    // console.log([initialObject]);
+    this.setState({ contacts: initialObject });
+    this.setState({ filteredContacts: initialObject });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('Prev State');
+    console.log(prevState);
+    console.log('Current State');
+    console.log(this.state);
+    if (prevState.isModificated !== this.state.isModificated) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      this.setState({ isModificated: false });
+    }
+  }
+
   resetfilter = data => {
-    this.setState({ filteredContacts: data });
-    this.setState({ contacts: data });
-    this.setState({ filter: `` });
+    this.setState({
+      filteredContacts: data,
+      contacts: data,
+      filter: '',
+      isModificated: true,
+    });
   };
 
   handleChange = evt => {
     const { name, value } = evt.target;
-    console.log(value);
+    // console.log(value);
 
     this.setState({ [name]: value });
   };
@@ -57,11 +73,12 @@ export default class Phonebook extends Component {
       return;
     }
 
-    contacts.push({
+    const newContact = {
       id: nanoid(),
       name: name,
       number: number,
-    });
+    };
+    contacts.push(newContact);
 
     this.resetfilter(contacts);
   };
