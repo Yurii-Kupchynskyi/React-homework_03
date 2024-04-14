@@ -16,29 +16,32 @@ export default class ContactList extends Component {
     const { filteredContacts, handleDelete } = this.props;
     return (
       <div>
-        {' '}
-        <ContactsList>
-          {filteredContacts.map(contact => {
-            return (
-              <li key={contact.id}>
-                <Flex wrap="wrap" gap="small" align="center">
-                  <p>
-                    {contact.name}: {contact.number}
-                  </p>
-                  <Tooltip title="delete">
-                    <Button
-                      type="danger"
-                      shape="circle"
-                      icon={<DeleteOutlined />}
-                      style={{ color: 'red', backgroundColor: 'white' }}
-                      onClick={e => handleDelete(e, contact.name)}
-                    />
-                  </Tooltip>
-                </Flex>
-              </li>
-            );
-          })}
-        </ContactsList>
+        {filteredContacts.length >= 1 ? (
+          <ContactsList>
+            {filteredContacts.map(contact => {
+              return (
+                <li key={contact.id}>
+                  <Flex wrap="wrap" gap="small" align="center">
+                    <p>
+                      {contact.name}: {contact.number}
+                    </p>
+                    <Tooltip title="delete">
+                      <Button
+                        type="danger"
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        style={{ color: 'red', backgroundColor: 'white' }}
+                        onClick={e => handleDelete(e, contact.name)}
+                      />
+                    </Tooltip>
+                  </Flex>
+                </li>
+              );
+            })}
+          </ContactsList>
+        ) : (
+          <h2>No data</h2>
+        )}
       </div>
     );
   }

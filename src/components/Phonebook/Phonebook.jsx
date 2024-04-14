@@ -19,7 +19,7 @@ export default class Phonebook extends Component {
 
   componentDidMount() {
     const initialObject = JSON.parse(localStorage.getItem('contacts'));
-    // console.log([initialObject]);
+
     this.setState({ contacts: initialObject });
     this.setState({ filteredContacts: initialObject });
   }
