@@ -6,6 +6,7 @@ import { StatHeader } from 'components/Feedback/StatSection';
 import ContactList from './ContactList/ContactList';
 import { SearchBar } from './SearchBar/SearchBar';
 import { PhonebookOptions } from './PhonebookOptions';
+import mockData from './ContactList/mockData.json';
 
 export default class Phonebook extends Component {
   state = {
@@ -18,8 +19,12 @@ export default class Phonebook extends Component {
   };
 
   componentDidMount() {
-    const initialObject = JSON.parse(localStorage.getItem('contacts'));
-
+    let initialObject;
+    if (localStorage.getItem('contacts')) {
+      initialObject = JSON.parse(localStorage.getItem('contacts'));
+    } else {
+      localStorage.setItem('contacts', JSON.stringify(mockData));
+    }
     this.setState({ contacts: initialObject });
     this.setState({ filteredContacts: initialObject });
   }
